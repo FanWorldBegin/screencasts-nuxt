@@ -28,7 +28,12 @@
 </template>
 
 <script>
-export default {}
+export default {
+
+  fetch({redirect}) {
+    redirect('/video')
+  }
+}
 </script>
 
 <style>

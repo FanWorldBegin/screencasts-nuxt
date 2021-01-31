@@ -17,10 +17,13 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    'element-ui/lib/theme-chalk/index.css'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~/plugins/axios',
+    '~/plugins/ElementUI'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -32,15 +35,44 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxtjs/axios',
+    '@nuxtjs/proxy',
   ],
+  axios: {
+    // baseUrl: '',
+    proxy: true,
+    // prefix: '/api'
+  },
 
+  proxy: {
+    '/api': {
+      target: 'https://httpbin.org',
+      pathRewrite: {'^/api': ''}
+
+    }
+  },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    transpile: [/^element-ui/],
   },
 
   server: {
     port: 8000
 
-  }
-
+  },
+// 以全部引用element-ui为例
+  vender:[
+    'element-ui'
+  ],
+  babel:{
+    "plugins": [["component", [
+      {
+        "libraryName": "element-ui",
+        "styleLibraryName": "theme-default"
+      },
+      'transform-async-to-generator',
+      'transform-runtime'
+    ]]],
+    comments: true
+  },
 }

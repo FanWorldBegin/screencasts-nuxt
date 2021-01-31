@@ -1,8 +1,9 @@
 <template>
   <div>
     <nuxt-child />
-    <h1>Videos</h1>
-    <div v-for="video in videos" :key="video.id">
+    <h1>{{videos}}</h1>
+      <el-button type="primary" plain>主要按钮</el-button>
+      <div v-for="video in videos" :key="video.id">
       <nuxt-link :to="`/videos/${video.id}`">{{ video.name }}</nuxt-link>
     </div>
   </div>
@@ -10,21 +11,29 @@
 
 <script>
   export default {
-    data() {
+    head(){
       return {
-        videos: [{
-          id: '16',
-          name: 'Intro to NuxtJS'
-        }, {
-          id: '1',
-          name: 'Intro to VueJS'
-        }, {
-          id: '71',
-          name: 'Advanced Techniques for Library X'
-        }]
+        //title: `${this.videos.name}--vue`
       }
     },
+    async asyncData({$axios, params}) {
+      let response = await $axios.get('/api/uuid')
+      if(process.client) {
+        console.log('sdfdfs')
+      }
+
+      let videos = {name: 'asdasd'};
+      return {
+        videos
+      }
+    },
+    methods: {
+      callBack(response) {
+        console.log('response', response)
+      }
+    }
   }
+
 </script>
 
 <style lang="scss" scoped>
